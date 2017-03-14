@@ -46,17 +46,22 @@ class WeatherClient(object):
             return data["hourly_forecast"]
 
 def print_almanac(almanac_data):
+
+        print "*--------ALMANAC REPORT--------*"
+        print "\n"
         print " (+) High Temperatures:"
         #Màxima diària record
         print "Record on this date %s (%s) " %(almanac_data["temp_high"]["record"]["C"],almanac_data["temp_high"]["recordyear"])
         #Mitja de màximes
         print "Average on this date", almanac_data["temp_high"]["normal"]["C"]
-
+        print "\n"
         print " (-) Low Temperatures:"
+        print "\n"
         #Mínima diària record
         print "Record on this date %s (%s) " %(almanac_data["temp_low"]["record"]["C"],almanac_data["temp_low"]["recordyear"])
         #Mitja de mínimes
         print "Average on this date", almanac_data["temp_low"]["normal"]["C"]
+        print "\n"
 
 def print_hourly(hourly_data):
         '''
@@ -64,7 +69,8 @@ def print_hourly(hourly_data):
         a short hourly forecast.
         '''
         #source: https://www.wunderground.com/weather/api/d/docs?d=data/hourly&MR=1#fcttime
-        print "HOURLY REPORT"
+        print "*--------HOURLY REPORT--------*"
+        print "\n"
         current = hourly_data[0]
         print "Current weather:"
         #Temperatura:
@@ -80,6 +86,9 @@ def print_hourly(hourly_data):
         #Vent:
         print "Wind speed: %s Km/h" % (current["wspd"]["metric"])
 
+        print "\n"
+
+        print "*--------RECOMENDATION--------*"
         #Clothes advertisement:
         #First Time in the morning--->Calm
         if hour < 10 :
@@ -88,6 +97,7 @@ def print_hourly(hourly_data):
         if hour > 10 :
             print "It's kinda gonna evolve on a windy weather"
             print "Don't forget a sweater to go outside or you will regret! "
+        print "\n"
 
 if __name__ == "__main__":
     if not api_key:
