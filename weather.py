@@ -36,31 +36,29 @@ class WeatherClient(object):
         data = json.loads(web.text)
         return data["almanac"]
 
-    def print_almanac(almanac_data):
-        print "High Temperatures:"
-        #Màxima diària record
-        print "Record on this date %s (%s) " %(almanac_data["high"]["record"]["C"],almanac_data["high"]["year"])
-        #Mitja de màximes
-        print "Average on this date", almanac_data["high"]["normal"]["C"]
-
-        print "Low Temperatures:"
-        #Mínima diària record
-        print "Record on this date %s (%s) " %(almanac_data["low"]["record"]["C"],almanac_data["low"]["year"])
-        #Mitja de mínimes
-        print "Average on this date", almanac_data["low"]["normal"]["C"]
-
     def hourly(self, location):
             # Obtenir url:
-
             url = WeatherClient.url_base + self.api_key + \
-                    WeatherClient.url_service["hourly"] + location + "." + "json"
+                WeatherClient.url_service["hourly"] + location + "." + "json"
             web = requests.get(url)
-
             #Dades i Retorn
             data = json.loads(web.text)
             return data["hourly_forecast"]
 
-    def print_hourly(hourly_data):
+def print_almanac(almanac_data):
+        print " (+) High Temperatures:"
+        #Màxima diària record
+        print "Record on this date %s (%s) " %(almanac_data["temp_high"]["record"]["C"],almanac_data["temp_high"]["recordyear"])
+        #Mitja de màximes
+        print "Average on this date", almanac_data["temp_high"]["normal"]["C"]
+
+        print " (-) Low Temperatures:"
+        #Mínima diària record
+        print "Record on this date %s (%s) " %(almanac_data["temp_low"]["record"]["C"],almanac_data["temp_low"]["recordyear"])
+        #Mitja de mínimes
+        print "Average on this date", almanac_data["temp_low"]["normal"]["C"]
+
+def print_hourly(hourly_data):
         '''
         Parse it to provide relevant information to the user, for example,
         a short hourly forecast.
@@ -76,9 +74,9 @@ class WeatherClient(object):
         #Condició climàtica:
         print "Condition: %s" % (current["condition"])
         #Humitat:
-        print "Humidity: %s %" % (current["humidity"])
+        print "Humidity: %s %%" % (current["humidity"])
         #Gebre:
-        print "Dewpoint: %s %" % (current["dewpoint"])
+        print "Dewpoint: %s %%" % (current["dewpoint"])
         #Vent:
         print "Wind speed: %s Km/h" % (current["wspd"]["metric"])
 
@@ -99,5 +97,5 @@ if __name__ == "__main__":
             print "Introduir api_key per línia de comandes"
 
     wc = WeatherClient(api_key)
-    print_almanac(wc.almanac("Lleida")
-    
+    print_almanac(wc.almanac("Lleida"))
+    print_hourly(wc.hourly("Lleida"))
